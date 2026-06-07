@@ -23,22 +23,32 @@ class SimpleObservation(TreeObsForRailEnv):
 
     def reset(self):
         super().reset()
-        self.env.distance_map.reset(self.env.agents, self.env.rail)
-        self.deadlock_checker.reset(self.env)
-        self.greedy_checker.reset(self.env, self.deadlock_checker)
-        self.timetable.reset(self.env)
         self.encountered = defaultdict(list)
 
-        self.random_handles = np.random.uniform(0, 1, len(self.env.agents))
-        self.last_action = -np.ones(len(self.env.agents), dtype=np.int64)
+        self.random_handles = np.empty(0, dtype=np.float32)
+        self.last_action = np.empty(0, dtype=np.int64)
+        self._deferred_ready = False
+        self._ensure_runtime_ready()
 
     def get_many(self, handles=None, ignore_parallel=False):
         if self.parallel and not ignore_parallel:
             return []
+        self._ensure_runtime_ready()
         self.timetable.update()
         self.deadlock_checker.update_deadlocks()
         observations = super().get_many(handles)
         return observations
+
+    def _ensure_runtime_ready(self):
+        if self._deferred_ready or self.env.rail is None:
+            return
+        self.random_handles = np.random.uniform(0, 1, len(self.env.agents))
+        self.last_action = -np.ones(len(self.env.agents), dtype=np.int64)
+        self.env.distance_map.reset(self.env.agents, self.env.rail)
+        self.deadlock_checker.reset(self.env)
+        self.greedy_checker.reset(self.env, self.deadlock_checker)
+        self.timetable.reset(self.env)
+        self._deferred_ready = True
 
     def get(self, handle):
         if self._get_checks(handle):
