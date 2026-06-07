@@ -135,6 +135,12 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+!submission/torch_solution/env/
+!submission/torch_solution/env/__init__.py
+!submission/torch_solution/env/compat.py
+!submission/torch_solution/env/observations/
+!submission/torch_solution/env/observations/__init__.py
+!submission/torch_solution/env/observations/TreeObsForRailEnv.py
 
 # Spyder project settings
 .spyderproject
@@ -174,4 +180,3 @@ cython_debug/
 /outputs-meta
 /debug-environments
 /debug-environments.zip
-
