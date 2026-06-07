@@ -3,4 +3,3 @@
 
 # flatland-rl @ git+https://github.com/flatland-association/flatland-rl.git@main
 flatland-rl==4.2.5
-torch==2.9.1
