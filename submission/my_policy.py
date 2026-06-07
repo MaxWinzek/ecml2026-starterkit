@@ -1,3 +1,3 @@
-from submission.random_policy import RandomPolicy
+from submission.torch_ppo_policy import TorchPPOPolicy
 
-MyPolicy = RandomPolicy
+MyPolicy = TorchPPOPolicy

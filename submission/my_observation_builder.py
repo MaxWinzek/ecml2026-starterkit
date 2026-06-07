@@ -1,3 +1,3 @@
-from flatland.core.env_observation_builder import DummyObservationBuilder
+from submission.torch_ppo_policy import TorchPPOObservationBuilder
 
-MyObservationBuilder = DummyObservationBuilder
+MyObservationBuilder = TorchPPOObservationBuilder
